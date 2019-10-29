@@ -1,6 +1,6 @@
 import 'dart:core';
 
-class Target {
+class Endpoint {
 
   String baseURL = "http://app.profitapp.me";
 
@@ -8,13 +8,13 @@ class Target {
 
   Map<String, String> parameters = Map();
 
-  Target.login(String email, String password) {
+  Endpoint.login(String email, String password) {
     route = Route.post('/account/loginjson');
     parameters['email'] = email;
     parameters['password'] = password;
   }
 
-  Target.userData() {
+  Endpoint.userData() {
     route = Route.post('/korisnik/korisnikservice');
   }
 }

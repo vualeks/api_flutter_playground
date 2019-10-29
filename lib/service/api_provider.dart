@@ -3,11 +3,11 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:login_api_test/model/LoginResponse.dart';
-import 'target.dart';
+import 'endpoint.dart';
 
 class ApiProvider {
   static void request<T extends Codable<T>>(
-    Target target,
+    Endpoint target,
     Function(T) success,
   ) async {
 

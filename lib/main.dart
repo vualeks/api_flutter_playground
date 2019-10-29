@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart';
 import 'package:login_api_test/model/LoginResponse.dart';
 import 'package:login_api_test/service/api_provider.dart';
-import 'package:login_api_test/service/target.dart';
+import 'package:login_api_test/service/endpoint.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -58,7 +58,7 @@ class _TextFieldsState extends State<CredFields> {
 
   _loginRequest() async {
     ApiProvider.request<LoginResponse>(
-        Target.login('petar.jankovic3331@gmail.com', 'blabla64'),
+        Endpoint.login('petar.jankovic3331@gmail.com', 'blabla64'),
         (loginResponse) {
       print(loginResponse.success);
     });

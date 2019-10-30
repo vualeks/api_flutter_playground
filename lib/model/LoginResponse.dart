@@ -1,4 +1,4 @@
-class LoginResponse extends Codable<LoginResponse> {
+class LoginResponse extends JsonDeserializable<LoginResponse> {
   final String success;
   final bool confirmed;
   final String error;
@@ -22,7 +22,7 @@ class LoginResponse extends Codable<LoginResponse> {
   };
 
   @override
-  LoginResponse getFromJson(Map<String, String> map) {
+  LoginResponse getFromJson(Map<String, dynamic> map) {
     return LoginResponse.fromJson(map);
   }
 }
@@ -33,6 +33,6 @@ class LoginResponse extends Codable<LoginResponse> {
 //  }
 //}
 
-abstract class Codable<T> {
-  T getFromJson(Map<String, String> map);
+abstract class JsonDeserializable<T> {
+  T getFromJson(Map<String, dynamic> map);
 }

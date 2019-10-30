@@ -44,6 +44,7 @@ class _TextFieldsState extends State<CredFields> {
   @override
   void initState() {
     super.initState();
+    FactoryRegistry().registerFactory(LoginResponse, new LoginResponseFactory());
     _loginRequest();
   }
 
@@ -61,7 +62,7 @@ class _TextFieldsState extends State<CredFields> {
         Endpoint.login('petar.jankovic3331@gmail.com', 'blabla64'),
         (loginResponse) {
       print(loginResponse.success);
-    });
+    }, LoginResponse());
   }
 
   @override

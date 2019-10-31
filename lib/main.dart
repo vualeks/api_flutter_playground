@@ -1,10 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:http/http.dart' as http;
-import 'package:http/io_client.dart';
-import 'package:login_api_test/model/LoginResponse.dart';
+import 'package:login_api_test/model/login_response.dart';
 import 'package:login_api_test/service/api_provider.dart';
 import 'package:login_api_test/service/endpoint.dart';
 
@@ -37,32 +33,30 @@ class _TextFieldsState extends State<CredFields> {
   final _passwordController = TextEditingController();
   var isLoading = false;
 
-//  var test: LoginResponse = {
-//    return LoginResponse();
-//  }
-
   @override
   void initState() {
     super.initState();
-    FactoryRegistry().registerFactory(LoginResponse, new LoginResponseFactory());
-    _loginRequest();
   }
 
-  bool _certificateCheck(X509Certificate cert, String host, int port) =>
-      host == 'app.profitapp.me';
-
-  http.Client profitappClient() {
-    var ioClient = HttpClient()..badCertificateCallback = _certificateCheck;
-
-    return IOClient(ioClient);
-  }
-
-  _loginRequest() async {
-    ApiProvider.request<LoginResponse>(
-        Endpoint.login('petar.jankovic3331@gmail.com', 'blabla64'),
-        (loginResponse) {
+  _loginRequest(BuildContext context) async {
+    ApiService.request<LoginResponse>(
+        Endpoint.login(_usernameController.text, _passwordController.text),
+        LoginResponse(), (loginResponse) {
       print(loginResponse.success);
-    }, LoginResponse());
+      setState(() {
+        isLoading = false;
+      });
+    }, error: (errorResponse) {
+      _showToast(context, "Greska!");
+    }, failure: () {
+      _showToast(context, "Nema interneta");
+      setState(() {
+        isLoading = false;
+      });
+    });
+    setState(() {
+      isLoading = true;
+    });
   }
 
   @override
@@ -92,7 +86,7 @@ class _TextFieldsState extends State<CredFields> {
                       _passwordController.text.isNotEmpty) {
                     isLoading = true;
 
-                    _loginRequest();
+                    _loginRequest(context);
                   }
                 });
               },
@@ -127,31 +121,3 @@ class _TextFieldsState extends State<CredFields> {
     );
   }
 }
-
-//    final chopper = ChopperClient(
-//      baseUrl: "http://app.profitapp.me",
-//      services: [
-//        // the generated service
-//        MyService.create()
-//      ],
-//      converter: JsonConverter(),
-//    );
-
-//    final myService = MyService.create(chopper);
-//    final response = await myService.login('petar.jankovic3331@gmail.com', 'blabla64');
-//    var loginJSON = LoginResponse.fromJson(json.decode(response.));
-//    var url = 'https://app.profitapp.me/account/loginjson';
-//    var response = await http.post(url, body: {'email': 'test', 'password': 'test'});
-//    var loginJSON = LoginResponse.fromJson(json.decode(response.body));
-//    try {
-//      var response = await Dio().post(
-//          'http://app.profitapp.me/account/loginjson',
-//          data: {'email': 'petar.jankovic3331@gmail.com', 'password': 'blabla64'});
-//      var loginJSON = LoginResponse.fromJson(json.decode(response.data));
-//      print(loginJSON.success);
-//    } catch (e) {
-//      print(e);
-//    }
-//    loginJSON.someFunc();
-//    print(loginJSON.error);
-//    chopper.httpClient.close();

@@ -8,6 +8,8 @@ class Endpoint {
 
   Map<String, String> parameters = Map();
 
+  // ----- Endpoint constructors -----
+
   Endpoint.login(String email, String password) {
     route = Route.post('/account/loginjson');
     parameters['email'] = email;
